@@ -9,7 +9,7 @@ namespace Content.Pipeline.Qualifier.AzureFunction
     {
         [FunctionName("QualifierFunction")]
         [return: ServiceBus("cachebuster-topic", Connection = "Servicebus:ServicebusConnectionString")]
-        public async Task<string> Run(
+        public Task<string> Run(
         [ServiceBusTrigger("qualifier-topic","QualifierSubscription", Connection = "Servicebus:ServicebusConnectionString")]
         string message,
         Int32 deliveryCount,
@@ -22,7 +22,7 @@ namespace Content.Pipeline.Qualifier.AzureFunction
             log.LogInformation($"DeliveryCount={deliveryCount}");
             log.LogInformation($"MessageId={messageId}");
 
-            return message;
+            return Task.FromResult(message);
         }
     }
 }
